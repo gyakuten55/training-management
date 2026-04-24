@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase";
 import { Button } from "@/components/ui/button";
@@ -18,6 +18,14 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { Client } from "@/lib/types";
 
 export default function NewOrderPage() {
+  return (
+    <Suspense fallback={<div>読み込み中...</div>}>
+      <NewOrderForm />
+    </Suspense>
+  );
+}
+
+function NewOrderForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [clients, setClients] = useState<Client[]>([]);

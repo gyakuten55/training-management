@@ -1,6 +1,6 @@
 "use client";
 
-import { Fragment, useEffect, useState, useMemo } from "react";
+import { Fragment, Suspense, useEffect, useState, useMemo } from "react";
 import { useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase";
 import { Button } from "@/components/ui/button";
@@ -43,6 +43,14 @@ function statusOrder(s: string): number {
 }
 
 export default function TrainingPage() {
+  return (
+    <Suspense fallback={<div>読み込み中...</div>}>
+      <TrainingPageContent />
+    </Suspense>
+  );
+}
+
+function TrainingPageContent() {
   const searchParams = useSearchParams();
   const [programs, setPrograms] = useState<ProgramWithDetails[]>([]);
   const [orders, setOrders] = useState<(Order & { client: Client })[]>([]);
